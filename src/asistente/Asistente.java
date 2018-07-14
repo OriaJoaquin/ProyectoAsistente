@@ -13,7 +13,10 @@ import atencion.Juego;
 import atencion.LeyesRobotica;
 import atencion.ManejoDeuda;
 import atencion.Saludo;
+import atencion.Finanzas;
+import atencion.Rss;
 import atencion.SinSentido;
+import atencion.Wikipedia;
 import imagen.ClienteGUI;
 
 import java.text.Normalizer;
@@ -33,7 +36,7 @@ public class Asistente {
 	}
 	
 	public void asignarCadenaDeAtencion() {
-		atenciones = new Atencion[13];
+		atenciones = new Atencion[16];
 		
 		atenciones[0] = new Saludo();
 		atenciones[1] = new Agradecimiento();
@@ -47,7 +50,10 @@ public class Asistente {
 		atenciones[9] = new Imagen9Gag();
 		atenciones[10] = new ImagenMeme();
 		atenciones[11] = new ManejoDeuda();
-		atenciones[12] = new SinSentido();
+		atenciones[12] = new Wikipedia();
+		atenciones[13] = new Finanzas();
+		atenciones[14] = new Rss();
+		atenciones[15] = new SinSentido();
 		
 		atenciones[0].establecerSiguiente(atenciones[1]);
 		atenciones[1].establecerSiguiente(atenciones[2]);
@@ -61,6 +67,10 @@ public class Asistente {
 		atenciones[9].establecerSiguiente(atenciones[10]);
 		atenciones[10].establecerSiguiente(atenciones[11]);
 		atenciones[11].establecerSiguiente(atenciones[12]);
+		atenciones[12].establecerSiguiente(atenciones[13]);
+		atenciones[13].establecerSiguiente(atenciones[14]);
+		atenciones[14].establecerSiguiente(atenciones[15]);
+
 	}
 
 	public String escuchar(String mensaje) {
