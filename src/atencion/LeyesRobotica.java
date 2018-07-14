@@ -18,7 +18,7 @@ public class LeyesRobotica implements Atencion {
 
 	public String atender(String mensaje, String nombreAsistente, String nombreUsuario) {
 		String consulta = mensaje.toLowerCase();
-		final String regex = "(@" + nombreAsistente + ")(?: cu[á|a]les son | recordame )(las leyes de la rob[o|á]tica)";
+		final String regex = "(" + nombreAsistente + ")(?: cu[á|a]les son | recordame )(las leyes de la rob[o|á]tica)";
 		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(consulta);
 

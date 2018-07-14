@@ -16,7 +16,7 @@ public class CambioDeUnidades implements Atencion {
 
 	public String atender(String mensaje, String nombreAsistente, String nombreUsuario) {
 		String consulta = mensaje.toLowerCase();
-		final String regex = "(@" + nombreAsistente + ")(?: cuantos | cuantas )(\\w+|\\w+ \\w+)(?: son )(\\d+) (\\w+ \\w+|\\w+)";
+		final String regex = "(" + nombreAsistente + ")(?: cuantos | cuantas )(\\w+|\\w+ \\w+)(?: son )(\\d+) (\\w+ \\w+|\\w+)";
 		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(consulta);
 

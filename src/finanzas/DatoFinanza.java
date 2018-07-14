@@ -48,8 +48,8 @@ public class DatoFinanza {			//atencion
 		if(matcher.find()) {
 //			System.out.println(matcher.group(1) + " " + matcher.group(2) + " " + matcher.group(3));
 			
-			//Finanza f = new ActualFinanza();				//CAMBIAR ESTO POR MockFinanza para los tests
-			Finanza f = new MockFinanza();
+			Finanza f = new ActualFinanza();				//CAMBIAR ESTO POR MockFinanza para los tests
+			//Finanza f = new MockFinanza();
 			try {
 				if(matcher.group(2).contains("acciones")) {
 					Stock s = f.getStock(matcher.group(3));

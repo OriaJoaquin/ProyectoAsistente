@@ -33,34 +33,34 @@ public class ManejoDeuda implements Atencion {
 		
 		Map<String, Callable<String>> expresiones = new HashMap<>();
 		
-		expresiones.put("(@" + nombreAsistente + ") (@\\w+) (?:me debe) ([\\$])\\s*([0-9,\\s]*\\.?[0-9]{0,2})",
+		expresiones.put("(" + nombreAsistente + ") (@\\w+) (?:me debe) ([\\$])\\s*([0-9,\\s]*\\.?[0-9]{0,2})",
 						() -> anotarPrestamo());
 		
-		expresiones.put("(@" + nombreAsistente + ") (?:cu[a|á]nto me debe) (@\\w+)[?]",
+		expresiones.put("(" + nombreAsistente + ") (?:cu[a|á]nto me debe) (@\\w+)[?]",
 						() -> cuantoMeDebe());
 		
-		expresiones.put("(@" + nombreAsistente + ")(?: le debo \\$)([0-9]+,[0-9]+|[0-9]+)(?: a )(@\\w+)", 
+		expresiones.put("(" + nombreAsistente + ")(?: le debo \\$)([0-9]+,[0-9]+|[0-9]+)(?: a )(@\\w+)", 
 						() -> anotarDeuda());
 		
-		expresiones.put("(@" + nombreAsistente + ")(?: cu[a|á]l es mi estado de deudas)", 
+		expresiones.put("(" + nombreAsistente + ")(?: cu[a|á]l es mi estado de deudas)", 
 						() -> consultarEstado());
 		
-		expresiones.put("(@" + nombreAsistente + ") simplificar deudas con (@\\w+) y (@\\w+)", 
+		expresiones.put("(" + nombreAsistente + ") simplificar deudas con (@\\w+) y (@\\w+)", 
 				() -> simplificarDeudas());
 		
-		expresiones.put("(@" + nombreAsistente + ") (@\\w+) me pag[o|ó] ([\\$])\\s*([0-9,\\\\s]*\\.?[0-9]{0,2})",
+		expresiones.put("(" + nombreAsistente + ") (@\\w+) me pag[o|ó] ([\\$])\\s*([0-9,\\\\s]*\\.?[0-9]{0,2})",
 				() -> saldarPrestamo());
 		
-		expresiones.put("(@" + nombreAsistente + ") cu[a|á]nto le debo a (@\\w+)?", 
+		expresiones.put("(" + nombreAsistente + ") cu[a|á]nto le debo a (@\\w+)?", 
 				() -> cuantoLeDebo());
 		
-		expresiones.put("(@" + nombreAsistente + ") le pagu[e|é] a (@\\w+) ([\\$])\\s*([0-9,\\\\s]*\\.?[0-9]{0,2})",
+		expresiones.put("(" + nombreAsistente + ") le pagu[e|é] a (@\\w+) ([\\$])\\s*([0-9,\\\\s]*\\.?[0-9]{0,2})",
 				() -> saldarDeuda());
 		
-		expresiones.put("(@" + nombreAsistente + ")(?: con )(.+)(?: gastamos \\$)(\\d+[,|.]\\d{0,2}|\\d+)(?: y pag[o|ó] )@(\\w+)",
+		expresiones.put("(" + nombreAsistente + ")(?: con )(.+)(?: gastamos \\$)(\\d+[,|.]\\d{0,2}|\\d+)(?: y pag[o|ó] )@(\\w+)",
 				() -> anotarDeudaGrupal());
 		
-		expresiones.put("(@" + nombreAsistente + ")(?: con )(.+)(?: gastamos \\$)(\\d+[,|.]\\d{0,2}|\\d+) y pagu[e|é] yo",
+		expresiones.put("(" + nombreAsistente + ")(?: con )(.+)(?: gastamos \\$)(\\d+[,|.]\\d{0,2}|\\d+) y pagu[e|é] yo",
 				() -> anotarPrestamoGrupal());
 		
 		

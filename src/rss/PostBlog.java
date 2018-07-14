@@ -28,7 +28,7 @@ public class PostBlog {				//atencion
 			if(matcher.find()) {
 				PrintWriter pw = null;
 				try {
-					pw = new PrintWriter(new FileOutputStream(new File("blogs\\info.txt"),true));
+					pw = new PrintWriter(new FileOutputStream(new File("blogs/info.txt"),true));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -37,7 +37,7 @@ public class PostBlog {				//atencion
 				pw.close();
 			}
 		} else if(consulta.contains("revisar blogs") == true || consulta.contains("revisar rss") == true) {
-			PostGetter pg = new PostMock();		//CAMBIAR POR PostMock() PARA LOS TESTS
+			PostGetter pg = new ActualPost();		//CAMBIAR POR PostMock() PARA LOS TESTS
 			Post p = pg.getPost();
 			
 			return p.toString();

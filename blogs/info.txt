@@ -1,0 +1,4 @@
+9to5mac, https://9to5mac.com/feed/
+Genbeta, http://feeds.weblogssl.com/genbeta
+anandtech, https://www.anandtech.com/rss/
+arstechnica, http://feeds.arstechnica.com/arstechnica/index

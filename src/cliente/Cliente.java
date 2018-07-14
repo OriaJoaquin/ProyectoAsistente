@@ -33,7 +33,6 @@ public class Cliente extends Thread {
   public HashMap<String, Sala> salas;
   public List<String> usuarios;
   public int estado;
-  private Asistente asistente;
 
   private HashMap<String, List<String>> mensajesPrivados;
   private HashMap<String, List<String>> mensajesSala;
@@ -227,7 +226,6 @@ public class Cliente extends Thread {
     } else {
       this.usuario = msg.getContenido();
       estado = LOGGEADO;
-      asistente = new Asistente("@jenkins", msg.getOrigen());
     }
   }
 
@@ -241,19 +239,14 @@ public class Cliente extends Thread {
   }
 
   public void enviar(Mensaje msg) {
-    if (!msg.getContenido().contains("@jenkins")) {
       Gson gson = new GsonBuilder().create();
       String mensaje = gson.toJson(msg);
-      System.out.println(mensaje);
-      try {
+		System.out.println(mensaje);
+	      try {
         out.writeUTF(mensaje);
         out.flush();
       } catch (IOException e) {
       }
-    } else {
-
-    }
-
   }
 
   public String getUsuario() {

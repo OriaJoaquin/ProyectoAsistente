@@ -18,7 +18,8 @@ public class Rss implements Atencion{
 	public String atender(String mensaje, String nombreAsistente, String nombreUsuario) {
 
 		String consulta = mensaje.toLowerCase();
-		final String regex = "(@" + nombreAsistente + ") revisar rss";
+		System.out.println(consulta);
+		final String regex = "(" + nombreAsistente + ") revisar rss";
 		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(consulta);
 		
