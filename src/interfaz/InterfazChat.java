@@ -92,9 +92,11 @@ public class InterfazChat {
 					} else {
 						String mensajeNuevo = usuarioEmisor + ": " + tfMensaje.getText() + "\n";
 						tfMensaje.setText("");
-						if (modo == Modo.PRIVADO)
-							enviarMensaje(mensajeNuevo);
-						else if (modo == Modo.SALA)
+						if (modo == Modo.PRIVADO){
+					  String textoOriginal = tpChat.getText();
+					  tpChat.setText(textoOriginal + mensajeNuevo);
+						enviarMensaje(mensajeNuevo);
+					}	else if (modo == Modo.SALA)
 							enviarMensajeSala(mensajeNuevo);
 					}
 				}
@@ -107,14 +109,15 @@ public class InterfazChat {
 				m.setOrigen(usuarioEmisor);
 				m.setTipo(Mensaje.MENSAJE_SALA);
 				m.setSala(sala);
-
-				for (String dest : listaDestinatarios) {
+				
+				for(String dest : listaDestinatarios) {
 					m.setDestino(dest);
 					cliente.enviar(m);
 				}
 			}
 
 			private void enviarMensaje(String mensajeNuevo) {
+			  
 				Mensaje m = new Mensaje();
 
 				m.setContenido(mensajeNuevo);
