@@ -24,11 +24,12 @@ import cliente.Sala;
 import server.Mensaje;
 
 import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class InterfazSalas extends Thread {
 
 	private JFrame frame;
-	private JTextField mensajePrivado;
 	private JTextField textTopico;
 	private DefaultListModel<String> salas;
 	private DefaultListModel<String> usuariosConectados;
@@ -80,34 +81,14 @@ public class InterfazSalas extends Thread {
 		salas = new DefaultListModel<String>();
 
 		JList<String> jlSalas = new JList<>(salas);
-		jlSalas.setBounds(10, 52, 200, 376);
+		jlSalas.setBounds(10, 52, 309, 414);
 		frame.getContentPane().add(jlSalas);
 		
 		usuariosConectados = new DefaultListModel<String>();
-		
-		JButton btnAbrirSala = new JButton("Abrir");
-		btnAbrirSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int sala = jlSalas.getSelectedIndex() + 1;
-				if (sala > 0)
-					JOptionPane.showMessageDialog(null, "Sala " + sala);
-			}
-		});
-		btnAbrirSala.setBounds(10, 441, 200, 25);
-		frame.getContentPane().add(btnAbrirSala);
-
-		JTextArea mensajesPrivados = new JTextArea();
-		mensajesPrivados.setBounds(222, 52, 519, 366);
-		frame.getContentPane().add(mensajesPrivados);
 
 		jlUsuariosConectados = new JList<String>(usuariosConectados);
-		jlUsuariosConectados.setBounds(753, 52, 180, 414);
+		jlUsuariosConectados.setBounds(771, 52, 180, 414);
 		frame.getContentPane().add(jlUsuariosConectados);
-
-		mensajePrivado = new JTextField();
-		mensajePrivado.setBounds(222, 429, 410, 37);
-		frame.getContentPane().add(mensajePrivado);
-		mensajePrivado.setColumns(10);
 
 		JLabel lblSalas = new JLabel("Salas");
 		lblSalas.setBounds(10, 13, 56, 16);
@@ -117,21 +98,9 @@ public class InterfazSalas extends Thread {
 		lblUsuariosConectados.setBounds(753, 13, 180, 16);
 		frame.getContentPane().add(lblUsuariosConectados);
 
-		JLabel lblMensajesPrivados = new JLabel("Mensajes Privados");
-		lblMensajesPrivados.setBounds(222, 13, 519, 16);
+		JLabel lblMensajesPrivados = new JLabel("Instrucciones:");
+		lblMensajesPrivados.setBounds(336, 13, 402, 16);
 		frame.getContentPane().add(lblMensajesPrivados);
-
-		JButton btnEnviar = new JButton("Enviar");
-		btnEnviar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int usuario = jlUsuariosConectados.getSelectedIndex() + 1;
-				if (usuario > 0) {
-					JOptionPane.showMessageDialog(null, mensajePrivado.getText() + " al Usuario " + usuario);
-				}
-			}
-		});
-		btnEnviar.setBounds(644, 429, 97, 37);
-		frame.getContentPane().add(btnEnviar);
 
 		JLabel lblTopico = new JLabel("Topico:");
 		lblTopico.setBounds(10, 479, 56, 16);
@@ -198,6 +167,17 @@ public class InterfazSalas extends Thread {
 		
 		btnCrear.setBounds(222, 479, 97, 25);
 		frame.getContentPane().add(btnCrear);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setText("Seleccione un usuario del panel derecho para iniciar una conversacion privada.\n"
+		    + "Seleccione una sala del panel izquierdo para entrar en la sala deseada.\n"
+		    + "Para crear una sala, ingrese un nombre en campo inferior a la lista de salas, y haga clic en crear.\n"
+		    + "Para usar el asistente mencionelo con @asistente.");
+		textArea.setToolTipText("");
+		textArea.setWrapStyleWord(false);
+		textArea.setBackground(SystemColor.controlHighlight);
+		textArea.setBounds(331, 53, 428, 414);
+		frame.getContentPane().add(textArea);
 
 		frame.setVisible(true);
 	}

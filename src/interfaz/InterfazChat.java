@@ -83,9 +83,7 @@ public class InterfazChat {
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!tfMensaje.getText().trim().equals("")) {
-					String textoOriginal = tpChat.getText();
 					String mensajeNuevo = usuarioEmisor + ": " + tfMensaje.getText() + "\n";
-					tpChat.setText(textoOriginal + mensajeNuevo);
 					tfMensaje.setText("");
 					
 					if(modo==Modo.PRIVADO)
@@ -100,7 +98,7 @@ public class InterfazChat {
 				
 				m.setContenido(mensajeNuevo);
 				m.setOrigen(usuarioEmisor);
-				m.setTipo(8);
+				m.setTipo(Mensaje.MENSAJE_SALA);
 				m.setSala(sala);
 				
 				for(String dest : listaDestinatarios) {
@@ -115,7 +113,7 @@ public class InterfazChat {
 				m.setContenido(mensajeNuevo);
 				m.setOrigen(usuarioEmisor);
 				m.setDestino(usuarioDestinatario);
-				m.setTipo(3);
+				m.setTipo(Mensaje.MENSAJE_PRIVADO);
 								
 				cliente.enviar(m);
 			}
