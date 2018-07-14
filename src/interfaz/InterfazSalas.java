@@ -182,10 +182,6 @@ public class InterfazSalas extends Thread {
 		frame.setVisible(true);
 	}
 
-	private void setComponentes() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void run() {
