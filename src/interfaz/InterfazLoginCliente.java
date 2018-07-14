@@ -21,7 +21,6 @@ public class InterfazLoginCliente {
 	private JFrame frame;
 	private JTextField textFieldIP;
 	private JTextField textFieldUsuario;
-	private JButton btnConectar;
 	private JButton btnIniciarSesion;
 	private JButton btnRegistrar;
 	private Cliente cliente;

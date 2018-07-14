@@ -57,6 +57,9 @@ public class ChatHandler extends Thread {
 			case Mensaje.BROADCAST:
 				broadcast(msg);
 				break;
+			case Mensaje.MENSAJE_SALA:
+			  mensajeSala(msg);
+			  break;
 			case Mensaje.MENSAJE_PRIVADO:
 				mensajePrivado(msg);
 				break;
@@ -68,9 +71,6 @@ public class ChatHandler extends Thread {
 				break;
 			case Mensaje.NUEVO_INTEGRANTE_SALA:
 				nuevoIntegranteSala(msg);
-				break;
-			case Mensaje.MENSAJE_SALA:
-				mensajeSala(msg);
 				break;
 			case Mensaje.REGISTRO:
         registrar(msg);
@@ -99,6 +99,7 @@ public class ChatHandler extends Thread {
   }
 	
 	private void mensajeSala(Mensaje msg) {
+	  for ( String user : clientes.keySet())
 		broadcast(msg);
 	}
 

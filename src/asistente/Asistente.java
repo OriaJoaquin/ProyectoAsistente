@@ -26,8 +26,7 @@ public class Asistente {
 	private String nombre;
 	private Atencion[] atenciones;
 	private ClienteGUI ventana;
-
-	public final static String USUARIO = "@delucas";
+	private String usuario = "@delucas";
 
 	public Asistente(String nombre) {
 		this.nombre = nombre;
@@ -35,6 +34,11 @@ public class Asistente {
 		asignarCadenaDeAtencion();
 	}
 	
+	public Asistente (String nombre, String usuario) {
+	 this.nombre = nombre;
+	 this.usuario = usuario;
+	 asignarCadenaDeAtencion();
+	}
 	public void asignarCadenaDeAtencion() {
 		atenciones = new Atencion[16];
 		
@@ -78,7 +82,7 @@ public class Asistente {
 		mensaje = Normalizer.normalize(mensaje, Normalizer.Form.NFD);
 		mensaje = mensaje.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
 		
-		return atenciones[0].atender(mensaje, nombre, USUARIO);
+		return atenciones[0].atender(mensaje, nombre, usuario);
 	}
 	
 	public static void main(String[] args) {

@@ -21,7 +21,8 @@ public class Mensaje {
 	public static final int USUARIO_INVALIDO = 11;
 	public final static int REGISTRO = 12;
   public final static int USUARIO_EXISTENTE = 13;
-
+  
+  
 	private int tipoMensaje;
 	private String sala;
 	private String destino;
