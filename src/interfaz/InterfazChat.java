@@ -6,6 +6,9 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -49,12 +52,20 @@ public class InterfazChat {
 			this.listaDestinatarios.remove(usuarioEmisor);
 		initialize();
 	}
+	
 
 	private void initialize() {
 		frame = new JFrame("Chat con " + usuarioDestinatario);
 		frame.setBounds(100, 100, 400, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+
+	  frame.addWindowListener(new WindowAdapter() {
+	    @Override
+	    public void windowClosing(WindowEvent arg0) {
+	        frame.dispose();
+	    }
+	  });
 
 		tfMensaje = new JTextField();
 		tfMensaje.setBounds(10, 515, 266, 35);

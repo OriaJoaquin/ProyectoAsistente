@@ -17,8 +17,10 @@ public class Mensaje {
 	public final static int USUARIO_EN_USO = 7;
 	public final static int MENSAJE_SALA = 8;
 	public final static int NUEVO_INTEGRANTE_SALA = 9;
-	
-
+	public static final int REGISTRO_EXITOSO = 10;
+	public static final int USUARIO_INVALIDO = 11;
+	public final static int REGISTRO = 12;
+  public final static int USUARIO_EXISTENTE = 13;
 
 	private int tipoMensaje;
 	private String sala;
@@ -49,13 +51,6 @@ public class Mensaje {
 			this.destino = null;
 			this.sala = "";
 		}
-//		if(tipo == NUEVA_SALA) {
-//			this.origen = "user";
-//			this.contenido = contenido;
-//			this.tipoMensaje = tipo;
-//			this.destino = null;
-//			this.sala = -1;
-//		}
 	};
 
 	private void copy(Mensaje mensaje) {

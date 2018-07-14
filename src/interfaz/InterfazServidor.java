@@ -58,7 +58,7 @@ public class InterfazServidor {
 			}
 		});
 		frame.setBounds(100, 100, 316, 174);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblPuerto = new JLabel("Puerto:");
