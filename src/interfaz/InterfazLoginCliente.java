@@ -124,7 +124,6 @@ public class InterfazLoginCliente {
 						Thread.sleep(5000);
 					} catch (InterruptedException e1) {
 					}
-					System.out.println("Cliente estado:" + cliente.estado);
 					if (cliente.estado == Cliente.LOGGEADO) {
 						InterfazSalas principal = new InterfazSalas(cliente, nombreUsuario);
 						principal.start();
