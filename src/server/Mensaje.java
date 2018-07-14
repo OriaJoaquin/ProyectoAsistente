@@ -15,9 +15,13 @@ public class Mensaje {
 	public final static int DESCONECTAR = 5;
 	public final static int NUEVA_SALA = 6;
 	public final static int USUARIO_EN_USO = 7;
+	public final static int MENSAJE_SALA = 8;
+	public final static int NUEVO_INTEGRANTE_SALA = 9;
 	
+
+
 	private int tipoMensaje;
-	private int sala;
+	private String sala;
 	private String destino;
 	private String contenido;
 	private String origen;
@@ -36,14 +40,14 @@ public class Mensaje {
 			this.contenido = contenido;
 			this.tipoMensaje = tipo;
 			this.destino = null;
-			this.sala = -1;
+			this.sala = "";
 		}
 		if(tipo == ACTUALIZAR_SALAS) {
 			this.origen = "server";
 			this.contenido = contenido;
 			this.tipoMensaje = tipo;
 			this.destino = null;
-			this.sala = -1;
+			this.sala = "";
 		}
 //		if(tipo == NUEVA_SALA) {
 //			this.origen = "user";
@@ -90,8 +94,16 @@ public class Mensaje {
 		return this.contenido;
 	}
 	
-	public int getSala() {
+	public String getSala() {
 		return sala;
+	}
+	
+	public static int getMensajeSala() {
+		return MENSAJE_SALA;
+	}
+
+	public void setSala(String sala) {
+		this.sala = sala;
 	}
 	
 	@Override

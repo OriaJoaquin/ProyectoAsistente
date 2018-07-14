@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JTextPane;
@@ -21,15 +22,31 @@ public class InterfazChat {
 	private String usuarioEmisor;
 	private Cliente cliente;
 	private JTextPane tpChat;
+	private List<String> listaDestinatarios;
+	private Modo modo;
+	private String sala;
 	
-	public static void main(String[] args) {
-		//InterfazChat ic = new InterfazChat("", "");
+	private enum Modo {
+		PRIVADO, SALA
 	}
 
 	public InterfazChat(String usuarioDestinatario, String usuarioEmisor, Cliente cliente) {
 		this.usuarioDestinatario = usuarioDestinatario;
 		this.usuarioEmisor = usuarioEmisor;
 		this.cliente = cliente;
+		this.modo = Modo.PRIVADO;
+		initialize();
+	}
+	
+	public InterfazChat(List<String> listaDestinatarios, String usuarioEmisor,String sala, Cliente cliente) {
+		this.listaDestinatarios=listaDestinatarios;
+		this.usuarioEmisor =usuarioEmisor;
+		this.cliente = cliente;
+		this.modo = modo.SALA;
+		this.sala = sala;
+		
+		if(this.listaDestinatarios.size()>0)
+			this.listaDestinatarios.remove(usuarioEmisor);
 		initialize();
 	}
 
@@ -60,7 +77,24 @@ public class InterfazChat {
 					tpChat.setText(textoOriginal + mensajeNuevo);
 					tfMensaje.setText("");
 					
-					enviarMensaje(mensajeNuevo);
+					if(modo==Modo.PRIVADO)
+						enviarMensaje(mensajeNuevo);
+					else if(modo==Modo.SALA) 
+						enviarMensajeSala(mensajeNuevo);
+				}
+			}
+
+			private void enviarMensajeSala(String mensajeNuevo) {
+				Mensaje m = new Mensaje();
+				
+				m.setContenido(mensajeNuevo);
+				m.setOrigen(usuarioEmisor);
+				m.setTipo(8);
+				m.setSala(sala);
+				
+				for(String dest : listaDestinatarios) {
+					m.setDestino(dest);
+					cliente.enviar(m);	
 				}
 			}
 
@@ -81,6 +115,11 @@ public class InterfazChat {
 		frame.getRootPane().setDefaultButton(btnEnviar);
 
 		frame.setVisible(true);
+	}
+	
+	public void agregarUsuario(String destinatario) {
+		if(this.modo == Modo.SALA)
+			this.listaDestinatarios.add(destinatario);
 	}
 	
 	public void recibirMensaje(String mensajeNuevo) {
