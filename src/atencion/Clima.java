@@ -34,7 +34,7 @@ public class Clima extends Testeable implements Atencion {
 	public String atender(String mensaje, String nombreAsistente, String nombreUsuario) {
 
 		String consulta = mensaje.toLowerCase();
-		final String regex = "(@" + nombreAsistente + ")(?: quiero saber el clima de )(\\w+ \\w+ \\w+|\\w+ \\w+|\\w+)";
+		final String regex = "(" + nombreAsistente + ")(?: quiero saber el clima de )(\\w+ \\w+ \\w+|\\w+ \\w+|\\w+)";
 		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(consulta);
 

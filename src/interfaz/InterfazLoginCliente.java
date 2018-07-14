@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import asistente.Asistente;
 import cliente.Cliente;
 import server.Mensaje;
 
@@ -25,6 +26,7 @@ public class InterfazLoginCliente {
 	private JButton btnRegistrar;
 	private Cliente cliente;
 	private JPasswordField textFieldContrasenia;
+	private Asistente asistente;
 
 	/**
 	 * Launch the application.
@@ -56,7 +58,7 @@ public class InterfazLoginCliente {
 		frame = new JFrame("Usuario");
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 399, 157);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblIp = new JLabel("IP:");
@@ -115,7 +117,7 @@ public class InterfazLoginCliente {
 					String nombreUsuario = textFieldUsuario.getText();
 					String contrasenia = textFieldContrasenia.getText();
 					msj.setOrigen(nombreUsuario);
-					msj.setContenido(nombreUsuario +"&"+ contrasenia);
+					msj.setContenido(nombreUsuario + "&" + contrasenia);
 					cliente.estado = Cliente.ESPERANDO_LOGIN;
 					cliente.enviar(msj);
 					try {

@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 
+import asistente.Asistente;
 import cliente.Cliente;
 import server.Mensaje;
 
@@ -28,7 +29,8 @@ public class InterfazChat {
 	private List<String> listaDestinatarios;
 	private Modo modo;
 	private String sala;
-	
+	private Asistente asistente;
+
 	private enum Modo {
 		PRIVADO, SALA
 	}
@@ -36,36 +38,37 @@ public class InterfazChat {
 	public InterfazChat(String usuarioDestinatario, String usuarioEmisor, Cliente cliente) {
 		this.usuarioDestinatario = usuarioDestinatario;
 		this.usuarioEmisor = usuarioEmisor;
+		asistente = new Asistente("@jenkins", usuarioEmisor);
 		this.cliente = cliente;
 		this.modo = Modo.PRIVADO;
 		initialize();
 	}
-	
-	public InterfazChat(List<String> listaDestinatarios, String usuarioEmisor,String sala, Cliente cliente) {
-		this.listaDestinatarios=listaDestinatarios;
-		this.usuarioEmisor =usuarioEmisor;
+
+	public InterfazChat(List<String> listaDestinatarios, String usuarioEmisor, String sala, Cliente cliente) {
+		this.listaDestinatarios = listaDestinatarios;
+		this.usuarioEmisor = usuarioEmisor;
+		asistente = new Asistente("@jenkins", usuarioEmisor);
 		this.cliente = cliente;
 		this.modo = modo.SALA;
 		this.sala = sala;
-		
-		if(this.listaDestinatarios.size()>0)
+
+		if (this.listaDestinatarios.size() > 0)
 			this.listaDestinatarios.remove(usuarioEmisor);
 		initialize();
 	}
-	
 
 	private void initialize() {
 		frame = new JFrame("Chat con " + usuarioDestinatario);
 		frame.setBounds(100, 100, 400, 600);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-	  frame.addWindowListener(new WindowAdapter() {
-	    @Override
-	    public void windowClosing(WindowEvent arg0) {
-	        frame.dispose();
-	    }
-	  });
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				frame.dispose();
+			}
+		});
 
 		tfMensaje = new JTextField();
 		tfMensaje.setBounds(10, 515, 266, 35);
@@ -83,54 +86,58 @@ public class InterfazChat {
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!tfMensaje.getText().trim().equals("")) {
-					String mensajeNuevo = usuarioEmisor + ": " + tfMensaje.getText() + "\n";
-					tfMensaje.setText("");
-					
-					if(modo==Modo.PRIVADO)
-						enviarMensaje(mensajeNuevo);
-					else if(modo==Modo.SALA) 
-						enviarMensajeSala(mensajeNuevo);
+					if (tfMensaje.getText().contains("@jenkins")) {
+						tpChat.setText(tpChat.getText() + "\n" + asistente.escuchar(tfMensaje.getText()));
+						tfMensaje.setText("");
+					} else {
+						String mensajeNuevo = usuarioEmisor + ": " + tfMensaje.getText() + "\n";
+						tfMensaje.setText("");
+						if (modo == Modo.PRIVADO)
+							enviarMensaje(mensajeNuevo);
+						else if (modo == Modo.SALA)
+							enviarMensajeSala(mensajeNuevo);
+					}
 				}
 			}
 
 			private void enviarMensajeSala(String mensajeNuevo) {
 				Mensaje m = new Mensaje();
-				
+
 				m.setContenido(mensajeNuevo);
 				m.setOrigen(usuarioEmisor);
 				m.setTipo(Mensaje.MENSAJE_SALA);
 				m.setSala(sala);
-				
-				for(String dest : listaDestinatarios) {
+
+				for (String dest : listaDestinatarios) {
 					m.setDestino(dest);
-					cliente.enviar(m);	
+					cliente.enviar(m);
 				}
 			}
 
 			private void enviarMensaje(String mensajeNuevo) {
 				Mensaje m = new Mensaje();
-				
+
 				m.setContenido(mensajeNuevo);
 				m.setOrigen(usuarioEmisor);
 				m.setDestino(usuarioDestinatario);
 				m.setTipo(Mensaje.MENSAJE_PRIVADO);
-								
+
 				cliente.enviar(m);
 			}
 		});
-		
+
 		tpChat.setEditable(false);
-		
+
 		frame.getRootPane().setDefaultButton(btnEnviar);
 
 		frame.setVisible(true);
 	}
-	
+
 	public void agregarUsuario(String destinatario) {
-		if(this.modo == Modo.SALA)
+		if (this.modo == Modo.SALA)
 			this.listaDestinatarios.add(destinatario);
 	}
-	
+
 	public void recibirMensaje(String mensajeNuevo) {
 		String textoOriginal = tpChat.getText();
 		tpChat.setText(textoOriginal + mensajeNuevo);

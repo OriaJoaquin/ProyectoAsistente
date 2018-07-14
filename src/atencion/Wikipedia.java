@@ -25,13 +25,14 @@ public class Wikipedia implements Atencion {
 
 	public String atender(String mensaje, String nombreAsistente, String nombreUsuario) {
 		String consulta = mensaje.toLowerCase();
-		final String regex = "(@" + nombreAsistente + ").*(informaci[o|ó]n|info|qu[e|é] es|quiero saber|necesito saber sobre)(.*)";
+		final String regex = "(" + nombreAsistente + ").*(informaci[o|ó]n|info|qu[e|é] es|quiero saber|necesito saber sobre)(.*)";
 		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(consulta);
 		
 		if (matcher.find()){
 			String infoABuscar = matcher.group(3); 
-			InfoGetter info = new InfoMock();
+			//InfoGetter info = new InfoMock();
+			InfoGetter info = new InfoActual();
 			return info.getInfo(infoABuscar,nombreUsuario);
 		}
 
