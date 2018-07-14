@@ -35,6 +35,8 @@ public class InterfazSalas extends Thread {
 	private Cliente cliente;
 	private String nombreUsuario;
 	private HashMap<String, InterfazChat> ventanasAbiertas;
+	private HashMap<String, InterfazChat> ventanasAbiertasSala;
+	private HashMap<String, List<String>> integrantesSalas;
 	private JList<String> jlUsuariosConectados;
 	/**
 	 * Launch the application.
@@ -59,6 +61,9 @@ public class InterfazSalas extends Thread {
 		this.cliente = cliente;
 		this.nombreUsuario = nombreUsuario;
 		this.ventanasAbiertas = new HashMap<String, InterfazChat>();
+		this.ventanasAbiertasSala = new HashMap<String, InterfazChat>();
+		this.integrantesSalas = new HashMap<String, List<String>>();
+		
 		initialize();
 	}
 
@@ -74,16 +79,16 @@ public class InterfazSalas extends Thread {
 
 		salas = new DefaultListModel<String>();
 
-		JList<String> listaSalas = new JList<>(salas);
-		listaSalas.setBounds(10, 52, 200, 376);
-		frame.getContentPane().add(listaSalas);
+		JList<String> jlSalas = new JList<>(salas);
+		jlSalas.setBounds(10, 52, 200, 376);
+		frame.getContentPane().add(jlSalas);
 		
 		usuariosConectados = new DefaultListModel<String>();
 		
 		JButton btnAbrirSala = new JButton("Abrir");
 		btnAbrirSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int sala = listaSalas.getSelectedIndex() + 1;
+				int sala = jlSalas.getSelectedIndex() + 1;
 				if (sala > 0)
 					JOptionPane.showMessageDialog(null, "Sala " + sala);
 			}
@@ -142,10 +147,14 @@ public class InterfazSalas extends Thread {
 			public void actionPerformed(ActionEvent e) {
 				if (!textTopico.getText().equals("")) {
 					Mensaje msg = new Mensaje();
-					msg.setContenido(textTopico.getText());
+					String sala = textTopico.getText();
+					msg.setContenido(sala);
 					msg.setTipo(Mensaje.NUEVA_SALA);
 					msg.setOrigen(cliente.getUsuario());
 					cliente.enviar(msg);
+					textTopico.setText("");
+					
+					integrantesSalas.put(sala, new ArrayList<String>());
 				}
 				// JOptionPane.showMessageDialog(null, "Crear sala con topico " +
 				// textTopico.getText() );
@@ -165,6 +174,28 @@ public class InterfazSalas extends Thread {
 				//JOptionPane.showMessageDialog(null, usuarioSeleccionado, "", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
+		
+		jlSalas.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JList<String> list = (JList) evt.getSource();
+				
+				String salaSeleccionada = list.getSelectedValue().toString();
+				
+				Mensaje msg = new Mensaje();
+				msg.setContenido(salaSeleccionada);
+				msg.setTipo(Mensaje.NUEVO_INTEGRANTE_SALA);
+				msg.setOrigen(nombreUsuario);
+				cliente.enviar(msg);
+				
+				List<String> integrantes = integrantesSalas.get(salaSeleccionada);
+				
+				if (!estaVentanaAbiertaSala(salaSeleccionada)) {			
+					InterfazChat ic = new InterfazChat(integrantes,nombreUsuario,salaSeleccionada, cliente);
+					ventanasAbiertasSala.put(salaSeleccionada, ic);
+				}
+			}
+		});
+		
 		btnCrear.setBounds(222, 479, 97, 25);
 		frame.getContentPane().add(btnCrear);
 
@@ -193,14 +224,37 @@ public class InterfazSalas extends Thread {
 			usuariosConectados.removeElement(nombreUsuario);
 			
 			jlUsuariosConectados = new JList<String>(usuariosConectados);
+			
+			integrantesSalas = cliente.getIntegrantesSalas();
 
 			verMensajesPrivados(cliente.getMensajesPrivados());
+			verMensajesSalas(cliente.getMensajesSala());
 
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 			}
 		}
+	}
+
+	private void verMensajesSalas(HashMap<String,List<String>> mensajesSala) {
+		for(Map.Entry<String, List<String>> entry : mensajesSala.entrySet()) {
+			String sala = entry.getKey();
+			List<String> integrantes = integrantesSalas.get(sala);
+			
+			if (!estaVentanaAbiertaSala(sala)) {			
+				InterfazChat ic = new InterfazChat(integrantes,nombreUsuario,sala, cliente);
+				ventanasAbiertasSala.put(sala, ic);
+			}
+			
+			InterfazChat ic = ventanasAbiertasSala.get(sala);
+			List<String> mensajes = entry.getValue();
+			
+			for(String msg : mensajes)
+				ic.recibirMensaje(msg);
+		}
+		
+		cliente.limpiarMensajesSala();
 	}
 
 	private void verMensajesPrivados(HashMap<String, List<String>> mensajesPrivados) {
@@ -221,6 +275,10 @@ public class InterfazSalas extends Thread {
 		}
 
 		cliente.limpiarMensajesPrivados();
+	}
+	
+	private boolean estaVentanaAbiertaSala(String sala) {
+		return ventanasAbiertasSala.containsKey(sala);
 	}
 	
 	private boolean estaVentanaAbierta(String usuario) {
